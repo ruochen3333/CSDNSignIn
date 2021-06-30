@@ -149,7 +149,7 @@ class Notice:
 
     @staticmethod
     def ding():
-        timestamp = str(round(time.time()) * 1000)
+        timestamp = str(round(time.time() * 1000))
         secret = DING_SECRET
         secret_enc = secret.encode('utf-8')
         string_to_sign = '{}\n{}'.format(timestamp, secret)
@@ -159,12 +159,12 @@ class Notice:
         headers = {'Content-Type': 'application/json'}
         complete_url = DING_URL + '&timestamp=' + timestamp + "&sign=" + sign
         data = {
-            'text': {
-                'content': DESP
+            "text": {
+                "content": DESP
             },
-            'msgtype': 'text'
+            "msgtype": "text"
         }
-        requests.post(url=complete_url, headers=headers, data=data)
+        requests.post(url=complete_url, data=json.dumps(data), headers=headers)
 
 def run():
     c = CSDN()
@@ -172,7 +172,7 @@ def run():
     c.csdn_sign_in()
 
     if IF_LUCK_DRAW == 'on':
-        n.server()
+        c.csdn_luck_draw()
     if IF_SERVER == 'on':
         n.server()
     if IF_WECHAT == 'on':
