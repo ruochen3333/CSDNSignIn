@@ -38,7 +38,7 @@ DESP = ''  # 消息内容
 
 class CSDN:
     # -> None 表示返回类型为None
-    def __init__(self) -> None:
+    def __init__(self):
         # 第二个参数代表分割成两个
         self.UUID = COOKIE.split(';', 1)[0].split('=', 1)[1]
         self.USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36'
@@ -71,7 +71,7 @@ class CSDN:
             'uuid': self.UUID
         }
 
-    def csdn_sign_in(self) -> None:
+    def csdn_sign_in(self):
         global TEXT, DESP
         response = requests.post(url=self.SIGN_IN_URL, headers=self.HEADERS, data=self.DATA)
         result = json.loads(response.text)
@@ -101,7 +101,7 @@ class CSDN:
             TEXT = 'CSDN 签到失败！'
             print('签到失败！')
 
-    def csdn_luck_draw(self) -> None:
+    def csdn_luck_draw(self):
         global TEXT, DESP
         if self.DRAW_TIMES != 0:
             response = requests.post(url=self.LUCKY_DRAW_URL, headers=self.HEADERS, data=self.DATA)
@@ -109,25 +109,26 @@ class CSDN:
             if result['code'] == 200:
                 if result['data']['can_draw']:
                     prize_title = result['data']['prize_title']
-                    TEXT += 'CSDN 抽奖成功！'
-                    DESP += 'CSDN 抽奖成功！恭喜你获得{}！'.format(prize_title)
+                    TEXT += '抽奖成功！'
+                    DESP += '\nCSDN抽奖成功！恭喜你获得{}！'.format(prize_title)
                     print('抽奖成功！恭喜你获得{}！'.format(prize_title))
                 elif not result['data']['can_draw']:
-                    TEXT += 'CSDN 抽奖失败！'
-                    DESP += 'CSDN 抽奖失败！抽奖机会已用完！'
+                    TEXT += '抽奖失败！'
+                    DESP += '\nCSDN 抽奖失败！抽奖机会已用完！'
                     print('抽奖机会已用完！')
                 else:
                     TEXT += 'CSDN 抽奖失败！'
                     print('抽奖失败！')
             elif result['code'] == 400102:
-                TEXT += 'CSDN 抽奖失败！'
-                DESP += 'CSDN 抽奖失败！{} 用户不存在或者 cookie 错误！'.format(CSDN_ID)
+                TEXT += '抽奖失败！'
+                DESP += '\nCSDN 抽奖失败！{} 用户不存在或者 cookie 错误！'.format(CSDN_ID)
                 print('抽奖失败！{} 用户不存在或者 cookie 错误！'.format(CSDN_ID))
             else:
-                TEXT += 'CSDN 抽奖失败！'
+                TEXT += '抽奖失败！'
                 print('抽奖失败！')
         else:
-            TEXT += 'CSDN 抽奖失败！抽奖机会已用完！'
+            TEXT += '抽奖失败！'
+            DESP += '\nCSDN 抽奖失败！抽奖机会已用完！'
             print('抽奖机会已用完')
 
 
